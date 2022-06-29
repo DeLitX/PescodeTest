@@ -5,16 +5,86 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.main.MainFragment">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MainFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/new_notification_button"
+        android:layout_width="166dp"
+        android:layout_height="166dp"
+        android:layout_marginTop="143dp"
+        android:elevation="15dp"
+        app:cardBackgroundColor="@color/primary_button"
+        app:cardCornerRadius="10000dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/new_notification"
+            android:textColor="@color/on_primary_button"
+            android:textSize="20sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/number_text_card"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="29dp"
+        android:layout_marginBottom="35dp"
+        app:cardBackgroundColor="@color/on_background_light"
+        app:cardCornerRadius="1000dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/on_light"
+            android:textSize="20sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/minus_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:cardCornerRadius="1000dp"
+        app:layout_constraintBottom_toBottomOf="@id/number_text_card"
+        app:layout_constraintLeft_toLeftOf="@id/number_text_card"
+        app:layout_constraintTop_toTopOf="@id/number_text_card">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/minus"
+            android:textColor="@color/on_secondary_button"
+            android:textSize="30sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/plus_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:cardCornerRadius="1000dp"
+        app:layout_constraintBottom_toBottomOf="@id/number_text_card"
+        app:layout_constraintRight_toRightOf="@id/number_text_card"
+        app:layout_constraintTop_toTopOf="@id/number_text_card">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/plus"
+            android:textColor="@color/on_secondary_button"
+            android:textSize="30sp" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
