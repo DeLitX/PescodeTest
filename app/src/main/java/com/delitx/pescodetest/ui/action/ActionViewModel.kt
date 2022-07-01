@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActionViewModel @Inject constructor() : ViewModel() {
-    // TODO: Implement the ViewModel
+    var currentFragmentNumber: Int = 1
 }

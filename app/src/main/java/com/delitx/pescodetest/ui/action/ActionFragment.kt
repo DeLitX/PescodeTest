@@ -13,6 +13,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ActionFragment : Fragment() {
+    companion object {
+        const val NUMBER_KEY = "number_key"
+    }
+
     private val viewModel: ActionViewModel by viewModels()
     private var newNotification: CardView? = null
     private var plus: CardView? = null
@@ -38,5 +42,17 @@ class ActionFragment : Fragment() {
             }
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            viewModel.currentFragmentNumber = try {
+                it.getInt(NUMBER_KEY)
+            } catch (e: RuntimeException) {
+                1
+            }
+        }
+        numberText?.text = viewModel.currentFragmentNumber.toString()
     }
 }
