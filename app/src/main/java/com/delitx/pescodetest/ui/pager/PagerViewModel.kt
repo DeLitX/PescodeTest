@@ -8,5 +8,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PagerViewModel @Inject constructor(private val repository: ActionsRepository) : ViewModel() {
     val pagesAmount = repository.number
+    val currentPage = repository.currentPage
     fun getNotificationIdsByPage(page: Int): List<Int> = repository.getNotificationIdsByPage(page)
 }

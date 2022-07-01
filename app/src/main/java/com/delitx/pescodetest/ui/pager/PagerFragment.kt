@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import com.delitx.pescodetest.App
 import com.delitx.pescodetest.R
 import com.delitx.pescodetest.ui.main.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +33,11 @@ class PagerFragment : Fragment() {
         val adapter = ViewPagerAdapter(requireActivity(), getter)
         val viewPager: ViewPager2 = view.findViewById(R.id.pager)
         viewPager.adapter = adapter
+        lifecycleScope.launchWhenCreated {
+            viewModel.currentPage.collect {
+                viewPager.currentItem = it - 1
+            }
+        }
         lifecycleScope.launchWhenCreated {
             viewModel.pagesAmount.collect {
                 if (viewPager.currentItem > it - 1) {

@@ -1,7 +1,10 @@
 package com.delitx.pescodetest.ui.action
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.delitx.pescodetest.App
 import com.delitx.pescodetest.R
+import com.delitx.pescodetest.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,6 +80,17 @@ class ActionFragment : Fragment() {
         page: Int,
         notificationId: Int = viewModel.getNewNotificationId()
     ) {
+        val intent = Intent(requireContext(), MainActivity::class.java).apply {
+            putExtra(MainActivity.SELECTED_PAGE_EXTRA, page)
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            requireContext(),
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notificationManager = requireActivity()
             .applicationContext
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -85,6 +100,7 @@ class ActionFragment : Fragment() {
             .setContentTitle(getString(R.string.notification_header, page.toString()))
             .setContentText(getString(R.string.notification_body, page.toString()))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()
         notificationManager.notify(notificationId, notification)
