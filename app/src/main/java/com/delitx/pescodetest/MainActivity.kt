@@ -1,9 +1,11 @@
 package com.delitx.pescodetest
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.delitx.pescodetest.ui.main.MainFragment
+import androidx.appcompat.app.AppCompatActivity
+import com.delitx.pescodetest.ui.action.ActionFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, ActionFragment())
                 .commitNow()
         }
     }
