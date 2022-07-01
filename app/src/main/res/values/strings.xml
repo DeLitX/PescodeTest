@@ -6,4 +6,5 @@
     <string name="channel_name">Notifications</string>
     <string name="notification_header">Notification %1$s</string>
     <string name="notification_body">Notification %1$s</string>
+    <string name="app_name">Pescode test</string>
 </resources>
