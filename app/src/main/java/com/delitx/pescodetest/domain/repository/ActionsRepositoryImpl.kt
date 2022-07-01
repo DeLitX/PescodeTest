@@ -1,22 +1,29 @@
 package com.delitx.pescodetest.domain.repository
 
+import com.delitx.pescodetest.domain.local.NumberSaver
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class ActionsRepositoryImpl() : ActionsRepository {
+class ActionsRepositoryImpl(private val numberSaver: NumberSaver) : ActionsRepository {
     private val _number = MutableStateFlow(1)
     override val number = _number.asStateFlow()
     private val notifications = mutableMapOf<Int, MutableList<Int>>()
 
     var lastNotificationId: Int = 0
 
+    init {
+        _number.value = numberSaver.get()
+    }
+
     override fun increaseNumber() {
         _number.value = _number.value + 1
+        numberSaver.save(_number.value)
     }
 
     override fun decreaseNumber() {
         if (_number.value > 0) {
             _number.value = _number.value - 1
+            numberSaver.save(_number.value)
         }
     }
 
