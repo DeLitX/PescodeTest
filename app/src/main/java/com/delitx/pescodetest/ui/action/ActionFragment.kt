@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.delitx.pescodetest.R
@@ -15,6 +16,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class ActionFragment : Fragment() {
     companion object {
         const val NUMBER_KEY = "number_key"
+        fun newInstance(number:Int):ActionFragment{
+            return ActionFragment().apply {
+                arguments = bundleOf(NUMBER_KEY to number)
+            }
+        }
     }
 
     private val viewModel: ActionViewModel by viewModels()
@@ -34,11 +40,14 @@ class ActionFragment : Fragment() {
             plus = findViewById(R.id.plus_button)
             minus = findViewById(R.id.minus_button)
             numberText = findViewById(R.id.number_text)
-            newNotification!!.setOnClickListener {
+            newNotification?.setOnClickListener {
+                viewModel.notifyMakeNotification()
             }
-            plus!!.setOnClickListener {
+            plus?.setOnClickListener {
+                viewModel.createNewPage()
             }
-            minus!!.setOnClickListener {
+            minus?.setOnClickListener {
+                viewModel.removePage()
             }
         }
         return view
@@ -52,6 +61,9 @@ class ActionFragment : Fragment() {
             } catch (e: RuntimeException) {
                 1
             }
+        }
+        if (viewModel.currentFragmentNumber == 1) {
+            minus?.visibility = View.GONE
         }
         numberText?.text = viewModel.currentFragmentNumber.toString()
     }
