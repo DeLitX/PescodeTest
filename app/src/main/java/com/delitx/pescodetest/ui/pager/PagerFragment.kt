@@ -1,13 +1,17 @@
 package com.delitx.pescodetest.ui.pager
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.delitx.pescodetest.App
 import com.delitx.pescodetest.R
 import com.delitx.pescodetest.ui.main.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,10 +48,20 @@ class PagerFragment : Fragment() {
                 }
                 while (currentPagerSize > it) {
                     adapter.notifyItemRemoved(currentPagerSize - 1)
+                    removeNotificationsForPage(currentPagerSize)
                     currentPagerSize--
                 }
             }
         }
         return view
+    }
+
+    private fun removeNotificationsForPage(page: Int) {
+        val notificationManager =
+            requireActivity().applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val ids = viewModel.getNotificationIdsByPage(page)
+        for (id in ids) {
+            notificationManager.cancel(id)
+        }
     }
 }

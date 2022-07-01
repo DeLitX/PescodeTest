@@ -16,7 +16,8 @@ class ActionViewModel @Inject constructor(private val repository: ActionsReposit
         repository.decreaseNumber()
     }
 
-    fun notifyMakeNotification() {
-        repository.notifyMakeNotification(currentFragmentNumber)
+    fun getNewNotificationId(): Int = repository.getNewNotificationId()
+    fun registerNotification(page: Int, notificationId: Int) {
+        repository.registerNotification(page, notificationId)
     }
 }

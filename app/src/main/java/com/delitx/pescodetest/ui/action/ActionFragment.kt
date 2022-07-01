@@ -1,14 +1,18 @@
 package com.delitx.pescodetest.ui.action
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.app.NotificationCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.delitx.pescodetest.App
 import com.delitx.pescodetest.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ActionFragment : Fragment() {
     companion object {
         const val NUMBER_KEY = "number_key"
-        fun newInstance(number:Int):ActionFragment{
+        fun newInstance(number: Int): ActionFragment {
             return ActionFragment().apply {
                 arguments = bundleOf(NUMBER_KEY to number)
             }
@@ -41,7 +45,7 @@ class ActionFragment : Fragment() {
             minus = findViewById(R.id.minus_button)
             numberText = findViewById(R.id.number_text)
             newNotification?.setOnClickListener {
-                viewModel.notifyMakeNotification()
+                createNotificationForPage(viewModel.currentFragmentNumber)
             }
             plus?.setOnClickListener {
                 viewModel.createNewPage()
@@ -66,5 +70,24 @@ class ActionFragment : Fragment() {
             minus?.visibility = View.GONE
         }
         numberText?.text = viewModel.currentFragmentNumber.toString()
+    }
+
+    private fun createNotificationForPage(
+        page: Int,
+        notificationId: Int = viewModel.getNewNotificationId()
+    ) {
+        val notificationManager = requireActivity()
+            .applicationContext
+            .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notification = NotificationCompat
+            .Builder(requireContext(), App.NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_message)
+            .setContentTitle(getString(R.string.notification_header, page.toString()))
+            .setContentText(getString(R.string.notification_body, page.toString()))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .build()
+        notificationManager.notify(notificationId, notification)
+        viewModel.registerNotification(page, notificationId)
     }
 }
